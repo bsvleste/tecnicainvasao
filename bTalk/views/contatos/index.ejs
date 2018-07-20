@@ -11,7 +11,51 @@
 <body>
     <% include ../headers %>
     <section class="col-sm-6">
-        <h1>Bem Vindo <%- usuario.nome %></h1>
+        <h1>Bem Vindo <%- usuario.nome %></h1>    
+        <div class="col-xs-10">
+            <h2>Listagens de Contatos</h2>
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+           </thead>
+           <tbody>
+             <%if(!contatos || contatos.length ==0){%>
+               <tr>
+                 <td colspan="4">Nenhum Contato Cadastrado</td>
+               </tr>
+               <%} else{
+                   contatos.forEach(function(contato, index){ %>
+                     <tr>
+                       <td><%=contato.nome%></td>
+                       <td><%=contato.email%></td>
+                       <td>
+                         <div class="btn-group" role="group" aria-label="Basic example">
+                           <a href="/contato/<%- index %>" class="btn btn-outline-primary">Detalhes</a>
+                           <a href="/chat/<%- contato.email %>" class="btn btn-outline-primary">Conversar</a>
+                           </div>
+                        </td>
+                     </tr>
+                   <%})}%>
+           </tbody>
+         </table>
+       </div>      
+            <form action="/contatos" method="post">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email</label>
+                    <input type="text" name="contato[email]" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Nome</label>
+                    <input type="text" name="contato[nome]" class="form-control" id="exampleInputPassword1" placeholder="Nome">
+                </div>            
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+            </form>
+            
         <a href="/sair">Logout</a>
         </section>
         <% include ../footer %>
